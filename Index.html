@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 style="text-align: center; margin-bottom: 20px;">Tic-Tac-Toe</h1>
+
+    <div id="player-setup">
+        <input type="text" id="playerX" placeholder="Enter Player X name">
+        <input type="text" id="playerO" placeholder="Enter Player O name">
+        <button id="startGame" class="btn" disabled>Start Game</button>
+    </div>
+
+    <div class="controls">
+        <div class="actions">
+            <button id="resetBtn" class="btn">Reset Board</button>
+            <button id="resetScoresBtn" class="btn">Reset Scores</button>
+            <button id="themeToggle" class="btn">Dark Mode</button>
+        </div>
+    </div>
+
+    <div class="message" id="message" aria-live="polite"></div>
+
+    <div class="game-area">
+        <div class="player-box" id="player1">Player X: 0</div>
+
+        <div class="board">
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+            <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+        </div>
+
+        <div class="player-box" id="player2">Player O: 0</div>
+    </div>
+
+    <div class="leaderboard-wrap">
+        <div class="leaderboard-inner">
+            <div class="stars-container">
+                <span class="star-small">⭐</span>
+                <span class="star-big">⭐</span>
+                <span class="star-small">⭐</span>
+            </div>
+            <h2 class="leaderboard-title">LEADERBOARD</h2>
+            
+            <div class="table-wrapper">
+                <table id="history">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">SL.</th>
+                            <th style="width: 50%;">MATCH</th>
+                            <th style="width: 35%;">RESULT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
