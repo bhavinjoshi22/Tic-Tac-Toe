@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const setMessage = (text, isActive = true) => { 
         if(messageEl) {
             messageEl.textContent = text;
+            // Naya: CSS active class trigger
             if (isActive) messageEl.classList.add('active');
             else messageEl.classList.remove('active');
         }
@@ -40,31 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function recordWinner(winnerName, symbol) {
         matchCount++;
-        const points = symbol === 'Draw' ? 0 : 750;
-        const rank = 145; 
-        const username = symbol === 'Draw' ? '@nobody' : `@player_${symbol.toLowerCase()}`;
-        
-        const trophyHTML = symbol !== 'Draw' ? 
-            `<div class="trophy-wrap">
-                <span class="trophy-icon">🏆</span>
-                <span class="trophy-num">${matchCount}</span>
-            </div>` : '';
+        const displayWinner = symbol === 'Draw' ? 'Draw 🤝' : `🏆 ${winnerName}`;
 
         const rowHTML = `
             <tr>
                 <td>${String(matchCount).padStart(2, '0')}</td>
-                <td>${rank}</td>
                 <td>
-                    <div class="name-cell">
-                        <div class="avatar">👤</div>
-                        <div class="name-info">
-                            <div class="p-name">${winnerName}</div>
-                            <div class="p-user">${username}</div>
-                        </div>
-                        ${trophyHTML}
+                    <div class="players-cell">
+                        <span>${playerNames.X}</span>
+                        <span class="vs-text">vs</span>
+                        <span>${playerNames.O}</span>
                     </div>
                 </td>
-                <td>${points}</td>
+                <td style="color: ${symbol === 'Draw' ? '#FFF' : '#f59e0b'}; font-weight: bold;">
+                    ${displayWinner}
+                </td>
             </tr>
         `;
         
@@ -73,6 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if(tableWrapper) tableWrapper.scrollTop = tableWrapper.scrollHeight;
         }
     }
+
+    // Naya: Flowers drop function completely removed based on user request
 
     function resetBoard(clearScores = false) {
         boardEl.classList.add('fade-out');
@@ -101,10 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleCellClick(e) {
         if (!gameStarted) {
-            setMessage("Please Enter The Name Of The Players");
+            setMessage("Please Enter The Name To Start The Game!", false);
             document.getElementById('player-setup').style.transform = 'scale(1.05)';
             setTimeout(() => document.getElementById('player-setup').style.transform = 'scale(1)', 200);
-            pXInput.focus(); 
+            pXInput.focus(); // Focus on input to show where to enter
             return;
         }
 
@@ -180,4 +173,3 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplays();
     setMessage(`Enter names to start!`, false);
 });
-
