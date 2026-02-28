@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleCellClick(e) {
         if (!gameStarted) {
-            setMessage("Pehle naam dalkar 'Start Game' pe click karein! ⚠️");
+            setMessage("Please Enter The Name Of The Players");
             document.getElementById('player-setup').style.transform = 'scale(1.05)';
             setTimeout(() => document.getElementById('player-setup').style.transform = 'scale(1)', 200);
             pXInput.focus(); 
@@ -180,3 +180,4 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplays();
     setMessage(`Enter names to start!`, false);
 });
+
