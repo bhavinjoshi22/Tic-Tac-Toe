@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pOInput = document.getElementById('playerO');
     const startBtn = document.getElementById('startGame');
     const tableWrapper = document.querySelector('.table-wrapper');
-    const shareBtn = document.getElementById('shareBtn'); // Naya Share Button
 
     const winningCombos = [
         [0,1,2], [3,4,5], [6,7,8], 
@@ -175,31 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggle.addEventListener('click', (e) => {
             document.body.classList.toggle('dark');
             e.target.textContent = document.body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
-        });
-    }
-
-    // Naya Share Button Event Listener
-    if(shareBtn) {
-        shareBtn.addEventListener('click', async () => {
-            const shareData = {
-                title: 'Tic-Tac-Toe Pro',
-                text: 'Bhavin ka Tic-Tac-Toe game check kar aur aaja khelne! 🔥',
-                url: window.location.href
-            };
-            
-            // Agar phone hai toh native share khulega
-            if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                } catch (err) {
-                    console.log('Share error:', err);
-                }
-            } else {
-                // PC hai toh link copy hoga
-                navigator.clipboard.writeText(window.location.href);
-                setMessage('Game link copied! Paste anywhere. 📋');
-                setTimeout(() => setMessage(`${playerNames[turn]}'s turn`), 2000);
-            }
         });
     }
 
