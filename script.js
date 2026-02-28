@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pOInput = document.getElementById('playerO');
     const startBtn = document.getElementById('startGame');
     const tableWrapper = document.querySelector('.table-wrapper');
+    const shareBtn = document.getElementById('shareBtn'); // Naya Share Button
 
     const winningCombos = [
         [0,1,2], [3,4,5], [6,7,8], 
@@ -33,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const setMessage = (text, isActive = true) => { 
         if(messageEl) {
             messageEl.textContent = text;
-            // Naya: CSS active class trigger
             if (isActive) messageEl.classList.add('active');
             else messageEl.classList.remove('active');
         }
@@ -41,21 +41,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function recordWinner(winnerName, symbol) {
         matchCount++;
-        const displayWinner = symbol === 'Draw' ? 'Draw 🤝' : `🏆 ${winnerName}`;
+        const points = symbol === 'Draw' ? 0 : 750;
+        const rank = 145; 
+        const username = symbol === 'Draw' ? '@nobody' : `@player_${symbol.toLowerCase()}`;
+        
+        const trophyHTML = symbol !== 'Draw' ? 
+            `<div class="trophy-wrap">
+                <span class="trophy-icon">🏆</span>
+                <span class="trophy-num">${matchCount}</span>
+            </div>` : '';
 
         const rowHTML = `
             <tr>
                 <td>${String(matchCount).padStart(2, '0')}</td>
+                <td>${rank}</td>
                 <td>
-                    <div class="players-cell">
-                        <span>${playerNames.X}</span>
-                        <span class="vs-text">vs</span>
-                        <span>${playerNames.O}</span>
+                    <div class="name-cell">
+                        <div class="avatar">👤</div>
+                        <div class="name-info">
+                            <div class="p-name">${winnerName}</div>
+                            <div class="p-user">${username}</div>
+                        </div>
+                        ${trophyHTML}
                     </div>
                 </td>
-                <td style="color: ${symbol === 'Draw' ? '#FFF' : '#f59e0b'}; font-weight: bold;">
-                    ${displayWinner}
-                </td>
+                <td>${points}</td>
             </tr>
         `;
         
@@ -64,8 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if(tableWrapper) tableWrapper.scrollTop = tableWrapper.scrollHeight;
         }
     }
-
-    // Naya: Flowers drop function completely removed based on user request
 
     function resetBoard(clearScores = false) {
         boardEl.classList.add('fade-out');
@@ -94,10 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleCellClick(e) {
         if (!gameStarted) {
-            setMessage("Please Enter The Name To Start The Game!", false);
+            setMessage("Pehle naam dalkar 'Start Game' pe click karein! ⚠️");
             document.getElementById('player-setup').style.transform = 'scale(1.05)';
             setTimeout(() => document.getElementById('player-setup').style.transform = 'scale(1)', 200);
-            pXInput.focus(); // Focus on input to show where to enter
+            pXInput.focus(); 
             return;
         }
 
@@ -167,6 +175,31 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggle.addEventListener('click', (e) => {
             document.body.classList.toggle('dark');
             e.target.textContent = document.body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
+        });
+    }
+
+    // Naya Share Button Event Listener
+    if(shareBtn) {
+        shareBtn.addEventListener('click', async () => {
+            const shareData = {
+                title: 'Tic-Tac-Toe Pro',
+                text: 'Bhavin ka Tic-Tac-Toe game check kar aur aaja khelne! 🔥',
+                url: window.location.href
+            };
+            
+            // Agar phone hai toh native share khulega
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.log('Share error:', err);
+                }
+            } else {
+                // PC hai toh link copy hoga
+                navigator.clipboard.writeText(window.location.href);
+                setMessage('Game link copied! Paste anywhere. 📋');
+                setTimeout(() => setMessage(`${playerNames[turn]}'s turn`), 2000);
+            }
         });
     }
 
